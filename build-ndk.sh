@@ -1,0 +1,1 @@
+cargo ndk -t arm64-v8a -t armeabi-v7a build --release
