@@ -3,7 +3,8 @@ name: Release
 permissions:
   contents: write
 
-on: [push]
+on:
+  workflow_dispatch:
 
 defaults:
   run:
@@ -18,27 +19,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - target: x86_64-apple-darwin
-            os: macos-latest
-          - target: aarch64-apple-darwin
-            os: macos-latest
-          - target: x86_64-pc-windows-msvc
-            os: windows-latest
-            RUSTFLAGS: -C target-feature=+crt-static
-          - target: x86_64-pc-windows-gnu
-            os: windows-latest
-          # - target: arm64ec-pc-windows-msvc
-          #   os: windows-latest
           - target: aarch64-unknown-linux-musl
             os: ubuntu-latest
-          - target: aarch64-unknown-linux-gnu
+          - target: armv7-unknown-linux-musleabihf
             os: ubuntu-latest
-          - target: x86_64-unknown-linux-musl
-            os: ubuntu-latest
-          - target: x86_64-unknown-linux-gnu
-            os: ubuntu-latest
-          # - target: aarch64-linux-android
-          #   os: ubuntu-latest
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -52,4 +36,4 @@ jobs:
           tag: nightly
           allowUpdates: true
           no-default-features: true
-          features: external,qjs
+          features: external,qjs,bindgen
